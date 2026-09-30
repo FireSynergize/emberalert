@@ -64,6 +64,7 @@ export function FireMap({
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [webglError, setWebglError] = useState(false);
   const [activeLayers, setActiveLayers] = useState<Set<string>>(new Set(["fires"]));
   const [fireCount, setFireCount] = useState<number>(0);
   const [loadingFires, setLoadingFires] = useState(false);
@@ -83,6 +84,11 @@ export function FireMap({
     const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
     if (!mapboxToken) {
       console.warn("No Mapbox token — map disabled");
+      return;
+    }
+
+    if (!mapboxgl.supported()) {
+      setWebglError(true);
       return;
     }
 
@@ -248,12 +254,21 @@ export function FireMap({
 
   return (
     <div className="relative w-full" style={{ height }}>
-      {!process.env.NEXT_PUBLIC_MAPBOX_TOKEN && (
+      {(!process.env.NEXT_PUBLIC_MAPBOX_TOKEN || webglError) && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#0a0500] rounded-xl border border-[rgba(255,69,0,0.2)] z-10">
           <div className="text-center p-8">
             <Flame className="h-12 w-12 text-[#ff4500] mx-auto mb-4 animate-pulse" />
-            <p className="text-[#f5f0ea] font-semibold mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Mapbox Token Required</p>
-            <p className="text-[rgba(245,240,234,0.5)] text-sm">Set NEXT_PUBLIC_MAPBOX_TOKEN in .env.local</p>
+            {webglError ? (
+              <>
+                <p className="text-[#f5f0ea] font-semibold mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WebGL Required</p>
+                <p className="text-[rgba(245,240,234,0.5)] text-sm">Enable hardware acceleration in your browser to view the satellite fire map.</p>
+              </>
+            ) : (
+              <>
+                <p className="text-[#f5f0ea] font-semibold mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Mapbox Token Required</p>
+                <p className="text-[rgba(245,240,234,0.5)] text-sm">Set NEXT_PUBLIC_MAPBOX_TOKEN in .env.local</p>
+              </>
+            )}
           </div>
         </div>
       )}
