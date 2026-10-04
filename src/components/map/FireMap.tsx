@@ -201,7 +201,7 @@ export function FireMap({
         new mapboxgl.Popup({ closeButton: true, maxWidth: "260px" })
           .setLngLat(coords)
           .setHTML(`
-            <div style="font-family: 'Space Grotesk', sans-serif; padding: 4px;">
+            <div style="font-family: 'Inter', sans-serif; padding: 4px;">
               <div style="font-size: 14px; font-weight: 700; color: #ff7b35; margin-bottom: 8px;">🔥 ${p.name}</div>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px;">
                 <div><span style="color: rgba(245,240,234,0.5)">State</span><br/><span style="color: #f5f0ea; font-weight: 600">${p.state}</span></div>

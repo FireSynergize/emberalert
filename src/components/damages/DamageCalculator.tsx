@@ -181,7 +181,7 @@ export function DamageCalculator() {
                 <p className="text-xs font-medium uppercase tracking-widest text-[rgba(245,240,234,0.4)] mb-1">Total Economic Impact</p>
                 <p
                   className="text-4xl font-bold text-[#ff7b35] text-glow"
-                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   {formatNumber(result.totalEstimate)}
                 </p>
@@ -204,7 +204,7 @@ export function DamageCalculator() {
                       <Icon className="h-3.5 w-3.5" style={{ color }} />
                       <p className="text-[10px] text-[rgba(245,240,234,0.4)] uppercase tracking-wider">{label}</p>
                     </div>
-                    <p className="text-sm font-bold" style={{ color, fontFamily: "'Space Grotesk', sans-serif" }}>
+                    <p className="text-sm font-bold" style={{ color, fontFamily: "'Inter', sans-serif" }}>
                       {formatNumber(value)}
                     </p>
                   </div>

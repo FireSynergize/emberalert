@@ -32,7 +32,7 @@ export function HistoricalComparison() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold text-[#f5f0ea]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+      <h2 className="text-xl font-bold text-[#f5f0ea]" style={{ fontFamily: "'Inter', sans-serif" }}>
         Historical Wildfire Data
       </h2>
 

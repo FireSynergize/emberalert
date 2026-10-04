@@ -189,7 +189,7 @@ export function ReliefResources() {
         <div className="flex items-start gap-4">
           <div className="text-3xl">🚨</div>
           <div>
-            <p className="text-base font-bold text-[#f87171] mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <p className="text-base font-bold text-[#f87171] mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
               If You Are in Immediate Danger
             </p>
             <p className="text-sm text-[rgba(245,240,234,0.7)] leading-relaxed">
@@ -210,7 +210,7 @@ export function ReliefResources() {
           <div key={phase} className="glass-fire rounded-xl p-4 border" style={{ borderColor: `${color}33` }}>
             <div className="flex items-center gap-2 mb-3">
               <div className="h-2 w-2 rounded-full" style={{ background: color }} />
-              <p className="text-xs font-bold uppercase tracking-wider" style={{ color, fontFamily: "'Space Grotesk', sans-serif" }}>{phase}</p>
+              <p className="text-xs font-bold uppercase tracking-wider" style={{ color, fontFamily: "'Inter', sans-serif" }}>{phase}</p>
             </div>
             <ul className="space-y-1.5">
               {items.map((item) => (

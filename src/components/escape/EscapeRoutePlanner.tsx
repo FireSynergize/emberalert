@@ -68,7 +68,7 @@ export function EscapeRoutePlanner() {
           >
             <div className="flex items-center gap-2 mb-3">
               <div className="h-3 w-3 rounded-full animate-pulse" style={{ background: zone.color, boxShadow: `0 0 8px ${zone.color}` }} />
-              <span className="text-sm font-bold text-[#f5f0ea]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{zone.level}</span>
+              <span className="text-sm font-bold text-[#f5f0ea]" style={{ fontFamily: "'Inter', sans-serif" }}>{zone.level}</span>
             </div>
             <p className="text-xs text-[rgba(245,240,234,0.6)] leading-relaxed mb-3">{zone.description}</p>
             <span
@@ -93,7 +93,7 @@ export function EscapeRoutePlanner() {
                 <CardTitle className="text-base">Go-Bag Checklist</CardTitle>
               </div>
               <div className="text-right">
-                <p className="text-lg font-bold text-[#ff7b35]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{completionPct}%</p>
+                <p className="text-lg font-bold text-[#ff7b35]" style={{ fontFamily: "'Inter', sans-serif" }}>{completionPct}%</p>
                 <p className="text-[10px] text-[rgba(245,240,234,0.4)]">{checkedItems.size}/{EVACUATION_CHECKLIST.length} items</p>
               </div>
             </div>
@@ -194,7 +194,7 @@ export function EscapeRoutePlanner() {
             <div className="flex items-start gap-3">
               <ExternalLink className="h-4 w-4 text-[#ff8c00] mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-[#f5f0ea] mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <p className="text-sm font-semibold text-[#f5f0ea] mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
                   Find Your Evacuation Zone
                 </p>
                 <p className="text-xs text-[rgba(245,240,234,0.5)] mb-3">
