@@ -1,10 +1,8 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Send, Flame, Bot, User, ChevronDown, Loader2, Sparkles } from "lucide-react";
+import { Send, Flame, Bot, User, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
-import { AI_PROVIDER_INFO } from "@/lib/ai/providers";
-import type { AIProvider } from "@/types/fire";
 
 interface Message {
   id: string;
@@ -21,7 +19,6 @@ const SUGGESTED_QUESTIONS = [
 ];
 
 export function ChatBot() {
-  const [provider, setProvider] = useState<AIProvider>("anthropic");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
@@ -51,7 +48,6 @@ export function ChatBot() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          provider,
           messages: [...messages, userMsg].map((m) => ({ role: m.role, content: m.content })),
         }),
         signal: abortRef.current.signal,
@@ -84,7 +80,7 @@ export function ChatBot() {
     } finally {
       setIsStreaming(false);
     }
-  }, [messages, provider, isStreaming]);
+  }, [messages, isStreaming]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,25 +90,21 @@ export function ChatBot() {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-[rgba(255,69,0,0.15)]">
-        <div className="flex items-center gap-2.5">
-          <div className="relative">
-            <div className="p-2 rounded-lg bg-[rgba(255,69,0,0.15)]">
-              <Flame className="h-4 w-4 text-[#ff4500]" />
-            </div>
-            <div className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-[#ff4500] animate-pulse" />
+      <div className="flex items-center p-4 border-b border-[rgba(255,69,0,0.15)]">
+        <div className="relative mr-2.5">
+          <div className="p-2 rounded-lg bg-[rgba(255,69,0,0.15)]">
+            <Flame className="h-4 w-4 text-[#ff4500]" />
           </div>
-          <div>
-            <p className="text-sm font-semibold text-[#f5f0ea]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Wildfire AI Assistant
-            </p>
-            <p className="text-xs text-[rgba(245,240,234,0.4)]">
-              {AI_PROVIDER_INFO[provider].name} · {AI_PROVIDER_INFO[provider].model}
-            </p>
-          </div>
+          <div className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-[#ff4500] animate-pulse" />
         </div>
-
-        <ProviderSelector provider={provider} onChange={setProvider} />
+        <div>
+          <p className="text-sm font-semibold text-[#f5f0ea]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            Wildfire AI Assistant
+          </p>
+          <p className="text-xs text-[rgba(245,240,234,0.4)]">
+            Claude · Anthropic
+          </p>
+        </div>
       </div>
 
       {/* Messages */}
@@ -200,51 +192,6 @@ export function ChatBot() {
           AI responses are informational only. In emergencies, call 911.
         </p>
       </form>
-    </div>
-  );
-}
-
-function ProviderSelector({ provider, onChange }: { provider: AIProvider; onChange: (p: AIProvider) => void }) {
-  const [open, setOpen] = useState(false);
-  const info = AI_PROVIDER_INFO[provider];
-  const providers: AIProvider[] = ["anthropic", "openai", "google"];
-
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[rgba(255,69,0,0.15)] text-xs text-[rgba(245,240,234,0.6)] hover:border-[rgba(255,69,0,0.35)] hover:text-[#f5f0ea] transition-all"
-      >
-        <span className="h-2 w-2 rounded-full flex-shrink-0" style={{ background: info.color }} />
-        {info.name}
-        <ChevronDown className={cn("h-3 w-3 transition-transform", open && "rotate-180")} />
-      </button>
-
-      {open && (
-        <div className="absolute right-0 top-full mt-1 glass-smoke rounded-xl border border-[rgba(255,69,0,0.2)] p-1.5 z-50 min-w-[180px] shadow-xl">
-          {providers.map((p) => {
-            const pInfo = AI_PROVIDER_INFO[p];
-            return (
-              <button
-                key={p}
-                onClick={() => { onChange(p); setOpen(false); }}
-                className={cn(
-                  "w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left transition-colors",
-                  p === provider
-                    ? "bg-[rgba(255,69,0,0.1)] text-[#f5f0ea]"
-                    : "text-[rgba(245,240,234,0.6)] hover:text-[#f5f0ea] hover:bg-[rgba(255,255,255,0.04)]"
-                )}
-              >
-                <span className="h-2 w-2 rounded-full mt-1.5 flex-shrink-0" style={{ background: pInfo.color }} />
-                <div>
-                  <p className="text-xs font-medium">{pInfo.name}</p>
-                  <p className="text-[10px] opacity-60">{pInfo.model}</p>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 }

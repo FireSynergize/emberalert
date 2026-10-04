@@ -43,7 +43,7 @@ export default function MapPage() {
             </div>
           </div>
 
-          <div className="flex-1 min-h-[600px]">
+          <div className="flex-1 min-h-[600px] relative">
             <Suspense>
               <FireMap height="100%" showControls initialCenter={[-98.5795, 39.8283]} initialZoom={4} />
             </Suspense>

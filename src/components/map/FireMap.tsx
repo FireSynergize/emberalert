@@ -253,7 +253,7 @@ export function FireMap({
   }, [activeLayers, loaded]);
 
   return (
-    <div className="relative w-full" style={{ height }}>
+    <div className={height === "100%" ? "absolute inset-0" : "relative w-full"} style={height !== "100%" ? { height } : undefined}>
       {(!process.env.NEXT_PUBLIC_MAPBOX_TOKEN || webglError) && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#0a0500] rounded-xl border border-[rgba(255,69,0,0.2)] z-10">
           <div className="text-center p-8">

@@ -6,7 +6,7 @@ export async function fetchFIRMSHotspots(
   mapKey: string,
   source: "VIIRS_SNPP_NRT" | "MODIS_NRT" | "VIIRS_NOAA20_NRT" = "VIIRS_SNPP_NRT",
   days: number = 1,
-  region: string = "usa_contiguous_and_hawaii"
+  region: string = "-165,18,-66,50"
 ): Promise<FireHotspot[]> {
   const url = `${FIRMS_BASE}/area/csv/${mapKey}/${source}/${region}/${days}`;
   const res = await fetch(url, { next: { revalidate: 3600 } });

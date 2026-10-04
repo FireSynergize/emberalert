@@ -71,7 +71,6 @@ export interface HistoricalFireEvent {
   containment: number;
 }
 
-export type AIProvider = "openai" | "anthropic" | "google";
 
 export interface DamageEstimate {
   propertyDamage: number;
