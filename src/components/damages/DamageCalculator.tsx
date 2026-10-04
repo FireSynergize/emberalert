@@ -175,7 +175,7 @@ export function DamageCalculator() {
       {/* Results */}
       {result && (
         <div className="space-y-4">
-          <Card variant="ember" glow>
+          <Card variant="ember">
             <CardContent className="pt-6">
               <div className="text-center mb-6">
                 <p className="text-xs font-medium uppercase tracking-widest text-[rgba(245,240,234,0.4)] mb-1">Total Economic Impact</p>
