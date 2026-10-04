@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Send, Flame, Bot, User, Loader2, Sparkles } from "lucide-react";
+import { Send, Flame, Bot, User, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 
@@ -72,7 +72,7 @@ export function ChatBot() {
         setMessages((prev) =>
           prev.map((m) =>
             m.id === aiMsgId
-              ? { ...m, content: "Sorry, I encountered an error. Please check your API key configuration and try again." }
+              ? { ...m, content: "Sorry, something went wrong. Check your API key and try again." }
               : m
           )
         );
@@ -90,47 +90,32 @@ export function ChatBot() {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center p-4 border-b border-[rgba(255,69,0,0.15)]">
-        <div className="relative mr-2.5">
-          <div className="p-2 rounded-lg bg-[rgba(255,69,0,0.15)]">
-            <Flame className="h-4 w-4 text-[#ff4500]" />
-          </div>
-          <div className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-[#ff4500] animate-pulse" />
-        </div>
+      <div className="flex items-center gap-2.5 p-3 border-b border-[#2e2e2e]">
+        <Flame className="h-4 w-4 text-[#e84c1a]" />
         <div>
-          <p className="text-sm font-semibold text-[#f5f0ea]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Wildfire AI Assistant
-          </p>
-          <p className="text-xs text-[rgba(245,240,234,0.4)]">
-            Claude · Anthropic
-          </p>
+          <p className="text-sm font-medium text-[#e0e0e0]">Wildfire AI Assistant</p>
+          <p className="text-[10px] text-[#555]">Claude · Anthropic</p>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0">
         {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-center py-8">
-            <div className="p-4 rounded-2xl bg-[rgba(255,69,0,0.08)] border border-[rgba(255,69,0,0.15)] mb-4">
-              <Sparkles className="h-8 w-8 text-[#ff4500]" />
-            </div>
-            <p className="text-sm font-semibold text-[#f5f0ea] mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Ask me anything about wildfires
-            </p>
-            <p className="text-xs text-[rgba(245,240,234,0.4)] max-w-xs">
-              Safety guidance, damage assessment, air quality, escape routes, and historical data.
-            </p>
+          <div className="flex flex-col items-center justify-center h-full text-center py-6">
+            <Flame className="h-8 w-8 text-[#e84c1a] mb-3" />
+            <p className="text-sm font-medium text-[#e0e0e0] mb-1">Ask me about wildfires</p>
+            <p className="text-xs text-[#666] max-w-xs">Safety tips, air quality, escape routes, damage estimates, and historical data.</p>
           </div>
         )}
 
         {showSuggestions && messages.length === 0 && (
-          <div className="space-y-2">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[rgba(245,240,234,0.3)]">Suggested questions</p>
+          <div className="space-y-1.5 mt-2">
+            <p className="text-[10px] text-[#555] uppercase tracking-widest">Suggestions</p>
             {SUGGESTED_QUESTIONS.map((q) => (
               <button
                 key={q}
                 onClick={() => sendMessage(q)}
-                className="w-full text-left text-xs px-3 py-2.5 rounded-lg border border-[rgba(255,69,0,0.15)] text-[rgba(245,240,234,0.6)] hover:text-[#f5f0ea] hover:border-[rgba(255,69,0,0.35)] hover:bg-[rgba(255,69,0,0.06)] transition-all"
+                className="w-full text-left text-xs px-3 py-2 rounded border border-[#2e2e2e] text-[#888] hover:text-[#e0e0e0] hover:border-[#444] transition-colors"
               >
                 {q}
               </button>
@@ -139,35 +124,33 @@ export function ChatBot() {
         )}
 
         {messages.map((m) => (
-          <div key={m.id} className={cn("flex gap-3", m.role === "user" ? "justify-end" : "justify-start")}>
+          <div key={m.id} className={cn("flex gap-2", m.role === "user" ? "justify-end" : "justify-start")}>
             {m.role === "assistant" && (
-              <div className="flex-shrink-0 p-1.5 rounded-lg bg-[rgba(255,69,0,0.12)] self-start mt-0.5">
-                <Bot className="h-3.5 w-3.5 text-[#ff4500]" />
+              <div className="flex-shrink-0 mt-0.5">
+                <Bot className="h-4 w-4 text-[#e84c1a]" />
               </div>
             )}
             <div
               className={cn(
-                "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed",
+                "max-w-[85%] rounded px-3 py-2 text-sm leading-relaxed",
                 m.role === "user"
-                  ? "bg-gradient-to-br from-[#ff4500] to-[#ff6b00] text-white rounded-tr-sm"
-                  : "glass-fire border border-[rgba(255,69,0,0.12)] text-[rgba(245,240,234,0.9)] rounded-tl-sm"
+                  ? "bg-[#e84c1a] text-white"
+                  : "bg-[#242424] border border-[#2e2e2e] text-[#d0d0d0]"
               )}
             >
               {m.role === "assistant" && m.content === "" && isStreaming ? (
-                <div className="flex gap-1 items-center py-1">
-                  <span className="h-1.5 w-1.5 bg-[#ff4500] rounded-full animate-bounce [animation-delay:0ms]" />
-                  <span className="h-1.5 w-1.5 bg-[#ff4500] rounded-full animate-bounce [animation-delay:150ms]" />
-                  <span className="h-1.5 w-1.5 bg-[#ff4500] rounded-full animate-bounce [animation-delay:300ms]" />
+                <div className="flex gap-1 items-center py-0.5">
+                  <span className="h-1.5 w-1.5 bg-[#e84c1a] rounded-full animate-bounce [animation-delay:0ms]" />
+                  <span className="h-1.5 w-1.5 bg-[#e84c1a] rounded-full animate-bounce [animation-delay:150ms]" />
+                  <span className="h-1.5 w-1.5 bg-[#e84c1a] rounded-full animate-bounce [animation-delay:300ms]" />
                 </div>
               ) : (
-                <div
-                  dangerouslySetInnerHTML={{ __html: formatMessage(m.content) }}
-                />
+                <div dangerouslySetInnerHTML={{ __html: formatMessage(m.content) }} />
               )}
             </div>
             {m.role === "user" && (
-              <div className="flex-shrink-0 p-1.5 rounded-lg bg-[rgba(255,69,0,0.12)] self-start mt-0.5">
-                <User className="h-3.5 w-3.5 text-[#ff7b35]" />
+              <div className="flex-shrink-0 mt-0.5">
+                <User className="h-4 w-4 text-[#666]" />
               </div>
             )}
           </div>
@@ -176,21 +159,19 @@ export function ChatBot() {
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="p-4 border-t border-[rgba(255,69,0,0.15)]">
+      <form onSubmit={handleSubmit} className="p-3 border-t border-[#2e2e2e]">
         <div className="flex gap-2">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about wildfires, safety, or damage..."
-            className="flex-1 bg-[rgba(255,255,255,0.05)] border border-[rgba(255,69,0,0.2)] rounded-xl px-4 py-2.5 text-sm text-[#f5f0ea] placeholder-[rgba(245,240,234,0.3)] focus:outline-none focus:border-[rgba(255,69,0,0.5)] focus:bg-[rgba(255,69,0,0.05)] transition-all"
+            className="flex-1 bg-[#242424] border border-[#2e2e2e] rounded px-3 py-2 text-sm text-[#e0e0e0] placeholder-[#555] focus:outline-none focus:border-[#444] transition-colors"
           />
-          <Button type="submit" size="sm" disabled={isStreaming || !input.trim()} className="h-[42px] w-[42px] p-0 flex-shrink-0">
-            {isStreaming ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+          <Button type="submit" size="sm" disabled={isStreaming || !input.trim()} className="h-[38px] w-[38px] p-0 flex-shrink-0">
+            {isStreaming ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
           </Button>
         </div>
-        <p className="text-[10px] text-[rgba(245,240,234,0.25)] mt-2 text-center">
-          AI responses are informational only. In emergencies, call 911.
-        </p>
+        <p className="text-[10px] text-[#444] mt-1.5 text-center">In emergencies, call 911.</p>
       </form>
     </div>
   );
@@ -200,9 +181,9 @@ function formatMessage(content: string): string {
   return content
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.+?)\*/g, "<em>$1</em>")
-    .replace(/^### (.+)$/gm, '<h3 style="font-size:0.85rem;font-weight:700;color:#ff7b35;margin:0.75rem 0 0.25rem">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 style="font-size:0.9rem;font-weight:700;color:#ff7b35;margin:0.75rem 0 0.25rem">$1</h2>')
-    .replace(/^- (.+)$/gm, '<li style="margin:0.2rem 0;padding-left:0.5rem">• $1</li>')
+    .replace(/^### (.+)$/gm, '<h3 style="font-size:0.8rem;font-weight:600;color:#e84c1a;margin:0.6rem 0 0.2rem">$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2 style="font-size:0.85rem;font-weight:600;color:#e84c1a;margin:0.6rem 0 0.2rem">$2</h2>')
+    .replace(/^- (.+)$/gm, '<li style="margin:0.15rem 0;padding-left:0.5rem">• $1</li>')
     .replace(/\n\n/g, "<br/><br/>")
     .replace(/\n/g, "<br/>");
 }

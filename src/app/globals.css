@@ -3,28 +3,14 @@
 
 @layer base {
   :root {
-    --fire-950: #0a0500;
-    --fire-900: #150900;
-    --fire-800: #2a1200;
-    --fire-700: #3d1a00;
-    --fire-600: #6b2d00;
-    --fire-500: #c44d00;
-    --fire-400: #f05a1a;
-    --fire-300: #ff7b35;
-    --fire-200: #ff9d64;
-    --fire-100: #ffc4a3;
-    --ember-500: #ff4500;
-    --ember-400: #ff6b35;
-    --amber-fire: #ffa500;
-    --smoke-900: #1a1a1a;
-    --smoke-800: #242424;
-    --smoke-700: #2e2e2e;
-    --smoke-600: #3a3a3a;
-    --smoke-500: #4a4a4a;
+    --bg: #111111;
+    --surface: #1c1c1c;
+    --border: #2e2e2e;
+    --text: #e0e0e0;
+    --text-muted: #888;
+    --accent: #e84c1a;
   }
-}
 
-@layer base {
   * {
     box-sizing: border-box;
   }
@@ -34,15 +20,15 @@
   }
 
   body {
-    background: var(--fire-950);
-    color: #f5f0ea;
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background: rgba(255, 69, 0, 0.4);
+    background: rgba(232, 76, 26, 0.3);
     color: #fff;
   }
 
@@ -52,147 +38,55 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--fire-900);
+    background: #1a1a1a;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--fire-600);
+    background: #333;
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--fire-500);
+    background: #444;
   }
 }
 
-/* Fire glow effects */
-.glow-fire {
-  box-shadow: 0 0 20px rgba(255, 69, 0, 0.3), 0 0 60px rgba(255, 69, 0, 0.1);
-}
-
-.glow-fire-strong {
-  box-shadow: 0 0 30px rgba(255, 69, 0, 0.5), 0 0 80px rgba(255, 69, 0, 0.2), 0 0 120px rgba(255, 69, 0, 0.05);
-}
-
-.glow-amber {
-  box-shadow: 0 0 20px rgba(255, 165, 0, 0.4), 0 0 60px rgba(255, 165, 0, 0.1);
-}
-
-.text-glow {
-  text-shadow: 0 0 20px rgba(255, 69, 0, 0.6), 0 0 40px rgba(255, 69, 0, 0.3);
-}
-
-/* Fire gradient backgrounds */
+/* Replaces old glass-fire / glass-smoke */
 .bg-fire-gradient {
-  background: linear-gradient(135deg, #0a0500 0%, #1a0900 30%, #2a1200 60%, #1a0500 100%);
+  background: var(--bg);
 }
 
-.bg-ember-gradient {
-  background: linear-gradient(135deg, rgba(255, 69, 0, 0.15) 0%, rgba(255, 140, 0, 0.08) 50%, transparent 100%);
-}
-
-/* Glass morphism fire style */
 .glass-fire {
-  background: rgba(26, 9, 0, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 69, 0, 0.15);
+  background: var(--surface);
+  border: 1px solid var(--border);
 }
 
 .glass-smoke {
-  background: rgba(10, 5, 0, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 100, 0, 0.1);
+  background: rgba(20, 20, 20, 0.9);
+  border: 1px solid var(--border);
 }
 
-/* Ember particle keyframes */
-@keyframes float-up {
-  0% {
-    transform: translateY(0) translateX(0) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-50px) translateX(10px) scale(0.8);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateY(-100px) translateX(-5px) scale(0.3);
-    opacity: 0;
-  }
-}
-
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes pulse-fire {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 69, 0, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(255, 69, 0, 0.6), 0 0 60px rgba(255, 140, 0, 0.2);
-  }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.animate-float-up {
-  animation: float-up 3s ease-in-out infinite;
-}
-
-.animate-flicker {
-  animation: flicker 2s ease-in-out infinite;
-}
-
-.animate-pulse-fire {
-  animation: pulse-fire 2s ease-in-out infinite;
-}
-
-/* Heat distortion */
-.heat-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(255,69,0,0.1) 50%, transparent 100%);
-  background-size: 200% 100%;
-  animation: shimmer 3s linear infinite;
-}
-
-/* Mapbox override for dark theme */
+/* Mapbox overrides */
 .mapboxgl-ctrl-logo {
   display: none !important;
 }
 
 .mapboxgl-popup-content {
-  background: rgba(10, 5, 0, 0.9) !important;
-  border: 1px solid rgba(255, 69, 0, 0.3) !important;
-  color: #f5f0ea !important;
-  border-radius: 8px !important;
-  backdrop-filter: blur(16px);
+  background: #1c1c1c !important;
+  border: 1px solid #2e2e2e !important;
+  color: #e0e0e0 !important;
+  border-radius: 6px !important;
 }
 
 .mapboxgl-popup-tip {
-  border-top-color: rgba(255, 69, 0, 0.3) !important;
-  border-bottom-color: rgba(255, 69, 0, 0.3) !important;
-}
-
-/* Stat card borders */
-.border-fire {
-  border-color: rgba(255, 69, 0, 0.25);
-}
-
-/* Active nav indicator */
-.nav-active {
-  background: linear-gradient(90deg, rgba(255, 69, 0, 0.2), transparent);
-  border-left: 2px solid #ff4500;
+  border-top-color: #2e2e2e !important;
+  border-bottom-color: #2e2e2e !important;
 }
 
 /* AQI color classes */
-.aqi-good { color: #00e400; }
-.aqi-moderate { color: #ffff00; }
-.aqi-sensitive { color: #ff7e00; }
-.aqi-unhealthy { color: #ff0000; }
-.aqi-very-unhealthy { color: #8f3f97; }
-.aqi-hazardous { color: #7e0023; }
+.aqi-good { color: #22c55e; }
+.aqi-moderate { color: #eab308; }
+.aqi-sensitive { color: #f97316; }
+.aqi-unhealthy { color: #ef4444; }
+.aqi-very-unhealthy { color: #a855f7; }
+.aqi-hazardous { color: #9f1239; }

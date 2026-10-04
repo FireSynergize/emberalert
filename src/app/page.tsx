@@ -2,7 +2,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { AQIWidget } from "@/components/dashboard/AQIWidget";
-import { EmberParticles } from "@/components/dashboard/EmberParticles";
 import { ChatBot } from "@/components/chat/ChatBot";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -27,89 +26,79 @@ const ACTIVE_INCIDENTS = [
   { name: "High Desert Blaze", state: "NM", acres: 67000, containment: 5, status: "active" as const },
 ];
 
+function containmentColor(pct: number) {
+  if (pct < 25) return "#ef4444";
+  if (pct < 60) return "#f97316";
+  return "#22c55e";
+}
+
 export default function HomePage() {
   const topFires = HISTORICAL_FIRES.slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-fire-gradient">
-      <EmberParticles />
+    <div className="min-h-screen bg-[#111]">
       <Navbar />
 
-      <main className="relative z-10 pt-20 md:pt-16 pb-16">
+      <main className="pt-14 pb-16">
         {/* Hero */}
-        <section className="max-w-screen-2xl mx-auto px-4 pt-8 pb-12">
+        <section className="max-w-screen-2xl mx-auto px-4 pt-10 pb-10">
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-4">
                 <Badge variant="fire" pulse>Live Data</Badge>
-                <span className="text-xs text-[rgba(245,240,234,0.4)]">Updated hourly from NASA FIRMS</span>
+                <span className="text-xs text-[#666]">Updated hourly from NASA FIRMS</span>
               </div>
-              <h1
-                className="text-4xl md:text-5xl xl:text-6xl font-extrabold leading-tight mb-4"
-                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-              >
-                <span className="text-[#f5f0ea]">Wildfire</span>
-                <br />
-                <span
-                  className="text-transparent bg-clip-text"
-                  style={{ backgroundImage: "linear-gradient(90deg, #ff4500, #ff8c00, #ffd700)" }}
-                >
-                  Intelligence
-                </span>
-                <br />
-                <span className="text-[#f5f0ea]">Platform</span>
+              <h1 className="text-3xl md:text-4xl font-bold text-[#e0e0e0] leading-tight mb-3">
+                Wildfire Intelligence Platform
               </h1>
-              <p className="text-[rgba(245,240,234,0.6)] text-lg max-w-xl leading-relaxed">
+              <p className="text-[#888] text-base max-w-xl leading-relaxed">
                 Real-time satellite fire detection, damage assessment, escape route planning, and AI-powered safety guidance for the United States.
               </p>
 
-              <div className="flex flex-wrap gap-3 mt-6">
+              <div className="flex flex-wrap gap-2 mt-6">
                 <Link
                   href="/map"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#ff4500] to-[#ff6b00] text-white font-semibold text-sm hover:from-[#ff5a1a] hover:to-[#ff7b1a] transition-all shadow-lg shadow-[rgba(255,69,0,0.4)]"
+                  className="flex items-center gap-2 px-4 py-2 rounded bg-[#e84c1a] text-white text-sm font-medium hover:bg-[#d43e0f] transition-colors"
                 >
-                  <MapPin className="h-4 w-4" />
+                  <MapPin className="h-3.5 w-3.5" />
                   View Fire Map
                 </Link>
                 <Link
                   href="/damages"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[rgba(255,69,0,0.35)] text-[#ff7b35] font-semibold text-sm hover:bg-[rgba(255,69,0,0.1)] transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded border border-[#2e2e2e] text-[#888] text-sm font-medium hover:border-[#444] hover:text-[#e0e0e0] transition-colors"
                 >
-                  <TrendingUp className="h-4 w-4" />
+                  <TrendingUp className="h-3.5 w-3.5" />
                   Assess Damages
                 </Link>
                 <Link
                   href="/escape"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[rgba(255,255,255,0.1)] text-[rgba(245,240,234,0.6)] font-semibold text-sm hover:bg-[rgba(255,255,255,0.05)] hover:text-[#f5f0ea] transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded border border-[#2e2e2e] text-[#888] text-sm font-medium hover:border-[#444] hover:text-[#e0e0e0] transition-colors"
                 >
-                  <Shield className="h-4 w-4" />
+                  <Shield className="h-3.5 w-3.5" />
                   Escape Routes
                 </Link>
               </div>
             </div>
 
-            {/* Alert banner */}
-            <div className="w-full lg:w-[340px] glass-fire rounded-2xl border border-[rgba(255,69,0,0.25)] p-5">
-              <div className="flex items-center gap-2 mb-4">
-                <AlertTriangle className="h-5 w-5 text-[#ff4500] animate-pulse" />
-                <span className="text-sm font-bold text-[#f5f0ea]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Active Incidents</span>
+            {/* Active incidents */}
+            <div className="w-full lg:w-[320px] bg-[#1c1c1c] border border-[#2e2e2e] rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <AlertTriangle className="h-4 w-4 text-[#e84c1a]" />
+                <span className="text-sm font-semibold text-[#e0e0e0]">Active Incidents</span>
                 <Badge variant="fire" className="ml-auto">{ACTIVE_INCIDENTS.length}</Badge>
               </div>
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 {ACTIVE_INCIDENTS.map((fire) => (
-                  <div key={fire.name} className="flex items-center gap-3 p-2.5 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,69,0,0.2)] transition-colors">
+                  <div key={fire.name} className="flex items-center gap-3 py-2 border-b border-[#2e2e2e] last:border-0">
                     <div
                       className="h-2 w-2 rounded-full flex-shrink-0"
-                      style={{
-                        background: fire.containment < 25 ? "#ff1500" : fire.containment < 60 ? "#ff6600" : "#ffcc00",
-                        boxShadow: `0 0 6px ${fire.containment < 25 ? "#ff1500" : fire.containment < 60 ? "#ff6600" : "#ffcc00"}`,
-                      }}
+                      style={{ background: containmentColor(fire.containment) }}
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-[#f5f0ea] truncate">{fire.name}</p>
-                      <p className="text-[10px] text-[rgba(245,240,234,0.4)]">{fire.state} · {fire.acres.toLocaleString()} acres</p>
+                      <p className="text-xs font-medium text-[#e0e0e0] truncate">{fire.name}</p>
+                      <p className="text-[10px] text-[#666]">{fire.state} · {fire.acres.toLocaleString()} acres</p>
                     </div>
-                    <span className="text-[10px] font-bold" style={{ color: fire.containment < 25 ? "#ff4444" : fire.containment < 60 ? "#ff9900" : "#4ade80" }}>
+                    <span className="text-[10px] font-semibold" style={{ color: containmentColor(fire.containment) }}>
                       {fire.containment}%
                     </span>
                   </div>
@@ -119,23 +108,22 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Stats grid */}
-        <section className="max-w-screen-2xl mx-auto px-4 pb-10">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {/* Stats */}
+        <section className="max-w-screen-2xl mx-auto px-4 pb-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             <StatCard title="Active Fires (US)" value={DEMO_STATS.activeFiresUS} icon={Flame} color="fire" pulse />
             <StatCard title="Acres Burning" value={(DEMO_STATS.acresBurning / 1000).toFixed(0) + "K"} icon={MapPin} color="red" />
             <StatCard title="Structures at Risk" value={DEMO_STATS.structuresAtRisk.toLocaleString()} icon={Home} color="amber" />
             <StatCard title="Evacuation Orders" value={DEMO_STATS.evacuationOrders} icon={Users} color="red" pulse />
             <StatCard title="Avg Containment" value={DEMO_STATS.containmentAvg + "%"} icon={TrendingUp} color="amber" />
-            <StatCard title="Smoke-Affected Counties" value={DEMO_STATS.smokeAffectedCounties} icon={Wind} color="purple" />
+            <StatCard title="Smoke Counties" value={DEMO_STATS.smokeAffectedCounties} icon={Wind} color="purple" />
           </div>
         </section>
 
         {/* Main content */}
-        <section className="max-w-screen-2xl mx-auto px-4 pb-10">
+        <section className="max-w-screen-2xl mx-auto px-4 pb-8">
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            {/* AQI + historical */}
-            <div className="xl:col-span-2 space-y-6">
+            <div className="xl:col-span-2 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <AQIWidget lat={37.7749} lon={-122.4194} />
                 <AQIWidget lat={34.0522} lon={-118.2437} />
@@ -143,27 +131,24 @@ export default function HomePage() {
 
               <Card>
                 <CardHeader>
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-lg bg-[rgba(255,69,0,0.1)]">
-                      <TrendingUp className="h-4 w-4 text-[#ff4500]" />
-                    </div>
-                    <CardTitle className="text-base">Notable Historical Fires</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-4 w-4 text-[#e84c1a]" />
+                    <CardTitle>Notable Historical Fires</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
+                  <div className="divide-y divide-[#2e2e2e]">
                     {topFires.map((fire) => (
-                      <div key={`${fire.year}-${fire.name}`} className="flex items-center gap-4 p-3 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,69,0,0.15)] transition-colors">
-                        <span className="text-xl flex-shrink-0">🔥</span>
+                      <div key={`${fire.year}-${fire.name}`} className="flex items-center gap-3 py-3">
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-[#f5f0ea] truncate">{fire.name}</p>
-                          <p className="text-[10px] text-[rgba(245,240,234,0.4)]">{fire.state} · {fire.year} · {fire.acresBurned.toLocaleString()} acres</p>
+                          <p className="text-sm font-medium text-[#e0e0e0] truncate">{fire.name}</p>
+                          <p className="text-xs text-[#666]">{fire.state} · {fire.year} · {fire.acresBurned.toLocaleString()} acres</p>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <p className="text-xs font-bold text-[#ff7b35]">
+                          <p className="text-xs font-semibold text-[#e84c1a]">
                             ${fire.estimatedDamage >= 1e9 ? (fire.estimatedDamage / 1e9).toFixed(1) + "B" : (fire.estimatedDamage / 1e6).toFixed(0) + "M"}
                           </p>
-                          <p className="text-[10px] text-[rgba(245,240,234,0.35)]">{fire.fatalities} fatalities</p>
+                          <p className="text-[10px] text-[#555]">{fire.fatalities} fatalities</p>
                         </div>
                       </div>
                     ))}
@@ -174,21 +159,18 @@ export default function HomePage() {
 
             {/* Chatbot */}
             <div id="chat" className="xl:col-span-1">
-              <div className="glass-fire rounded-2xl border border-[rgba(255,69,0,0.2)] h-[600px] flex flex-col overflow-hidden">
+              <div className="bg-[#1c1c1c] border border-[#2e2e2e] rounded-lg h-[580px] flex flex-col overflow-hidden">
                 <ChatBot />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Data sources attribution */}
+        {/* Attribution */}
         <section className="max-w-screen-2xl mx-auto px-4">
-          <div className="glass-smoke rounded-xl p-4 border border-[rgba(255,255,255,0.06)]">
-            <p className="text-[10px] text-[rgba(245,240,234,0.3)] text-center">
-              Data sources: NASA FIRMS (VIIRS/MODIS satellite hotspots) · EPA AirNow · Open-Meteo Air Quality · NOAA Weather · CAL FIRE · NWCG Incident Data
-              · Demonstration data used when API keys are not configured.
-            </p>
-          </div>
+          <p className="text-[10px] text-[#444] text-center">
+            Data sources: NASA FIRMS (VIIRS/MODIS) · EPA AirNow · Open-Meteo · NOAA · CAL FIRE · NWCG. Demo data used when API keys are not configured.
+          </p>
         </section>
       </main>
     </div>

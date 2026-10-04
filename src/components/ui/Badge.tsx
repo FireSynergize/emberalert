@@ -7,37 +7,34 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 export function Badge({ className, variant = "fire", pulse, children, ...props }: BadgeProps) {
+  const colors = {
+    fire:   "bg-[#2a1a12] text-[#e84c1a] border border-[#3a2018]",
+    green:  "bg-[#0f2318] text-[#22c55e] border border-[#1a3828]",
+    yellow: "bg-[#231f0a] text-[#eab308] border border-[#352e10]",
+    amber:  "bg-[#231a0a] text-[#f59e0b] border border-[#352810]",
+    red:    "bg-[#2a1010] text-[#f87171] border border-[#3a1818]",
+    purple: "bg-[#1e1228] text-[#c084fc] border border-[#2e1a3a]",
+    smoke:  "bg-[#1c1c1c] text-[#888] border border-[#2e2e2e]",
+  };
+
+  const dotColor = {
+    fire: "bg-[#e84c1a]", green: "bg-green-500", red: "bg-red-500",
+    yellow: "bg-yellow-500", amber: "bg-amber-500", purple: "bg-purple-500", smoke: "bg-[#666]",
+  };
+
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium",
-        variant === "fire" && "bg-[rgba(255,69,0,0.15)] text-[#ff7b35] border border-[rgba(255,69,0,0.3)]",
-        variant === "green" && "bg-[rgba(0,228,0,0.1)] text-[#4ade80] border border-[rgba(0,228,0,0.2)]",
-        variant === "yellow" && "bg-[rgba(250,204,21,0.1)] text-[#fbbf24] border border-[rgba(250,204,21,0.2)]",
-        variant === "amber" && "bg-[rgba(251,191,36,0.1)] text-[#f59e0b] border border-[rgba(251,191,36,0.2)]",
-        variant === "red" && "bg-[rgba(239,68,68,0.1)] text-[#f87171] border border-[rgba(239,68,68,0.2)]",
-        variant === "purple" && "bg-[rgba(168,85,247,0.1)] text-[#c084fc] border border-[rgba(168,85,247,0.2)]",
-        variant === "smoke" && "bg-[rgba(74,74,74,0.3)] text-[#a3a3a3] border border-[rgba(74,74,74,0.4)]",
+        "inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-xs font-medium",
+        colors[variant],
         className
       )}
       {...props}
     >
       {pulse && (
-        <span className="relative flex h-2 w-2">
-          <span className={cn(
-            "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
-            variant === "fire" && "bg-[#ff4500]",
-            variant === "green" && "bg-green-400",
-            variant === "red" && "bg-red-400",
-            variant === "yellow" && "bg-yellow-400",
-          )} />
-          <span className={cn(
-            "relative inline-flex rounded-full h-2 w-2",
-            variant === "fire" && "bg-[#ff4500]",
-            variant === "green" && "bg-green-500",
-            variant === "red" && "bg-red-500",
-            variant === "yellow" && "bg-yellow-500",
-          )} />
+        <span className="relative flex h-1.5 w-1.5">
+          <span className={cn("absolute inline-flex h-full w-full rounded-full animate-ping opacity-75", dotColor[variant])} />
+          <span className={cn("relative inline-flex rounded-full h-1.5 w-1.5", dotColor[variant])} />
         </span>
       )}
       {children}

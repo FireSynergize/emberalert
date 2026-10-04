@@ -255,86 +255,71 @@ export function FireMap({
   return (
     <div className={height === "100%" ? "absolute inset-0" : "relative w-full"} style={height !== "100%" ? { height } : undefined}>
       {(!process.env.NEXT_PUBLIC_MAPBOX_TOKEN || webglError) && (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#0a0500] rounded-xl border border-[rgba(255,69,0,0.2)] z-10">
+        <div className="absolute inset-0 flex items-center justify-center bg-[#111] rounded-lg border border-[#2e2e2e] z-10">
           <div className="text-center p-8">
-            <Flame className="h-12 w-12 text-[#ff4500] mx-auto mb-4 animate-pulse" />
-            {webglError ? (
-              <>
-                <p className="text-[#f5f0ea] font-semibold mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WebGL Required</p>
-                <p className="text-[rgba(245,240,234,0.5)] text-sm">Enable hardware acceleration in your browser to view the satellite fire map.</p>
-              </>
-            ) : (
-              <>
-                <p className="text-[#f5f0ea] font-semibold mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Mapbox Token Required</p>
-                <p className="text-[rgba(245,240,234,0.5)] text-sm">Set NEXT_PUBLIC_MAPBOX_TOKEN in .env.local</p>
-              </>
-            )}
+            <Flame className="h-8 w-8 text-[#e84c1a] mx-auto mb-3" />
+            <p className="text-[#e0e0e0] font-medium mb-1">{webglError ? "WebGL Required" : "Mapbox Token Required"}</p>
+            <p className="text-[#666] text-sm">
+              {webglError
+                ? "Enable hardware acceleration in your browser settings."
+                : "Set NEXT_PUBLIC_MAPBOX_TOKEN in .env.local"}
+            </p>
           </div>
         </div>
       )}
 
-      <div ref={mapContainer} className="w-full h-full rounded-xl overflow-hidden" />
+      <div ref={mapContainer} className="w-full h-full rounded-lg overflow-hidden" />
 
       {showControls && loaded && (
         <>
-          <div className="absolute top-4 left-4 glass-smoke rounded-xl p-3 border border-[rgba(255,69,0,0.15)] space-y-1.5">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[rgba(245,240,234,0.4)] mb-2">Layers</p>
+          <div className="absolute top-3 left-3 bg-[rgba(20,20,20,0.9)] border border-[#2e2e2e] rounded p-2.5 space-y-1">
+            <p className="text-[10px] text-[#555] uppercase tracking-widest mb-1.5">Layers</p>
             {LAYERS.map(({ id, label, icon: Icon, color }) => (
               <button
                 key={id}
                 onClick={() => toggleLayer(id)}
                 className={cn(
-                  "flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium w-full text-left transition-all",
-                  activeLayers.has(id)
-                    ? "text-[#f5f0ea]"
-                    : "text-[rgba(245,240,234,0.35)] hover:text-[rgba(245,240,234,0.6)]"
+                  "flex items-center gap-2 px-2 py-1 rounded text-xs w-full text-left transition-colors",
+                  activeLayers.has(id) ? "text-[#e0e0e0]" : "text-[#555] hover:text-[#888]"
                 )}
-                style={{ background: activeLayers.has(id) ? `${color}18` : "transparent" }}
               >
                 {activeLayers.has(id)
-                  ? <Eye className="h-3.5 w-3.5" style={{ color }} />
-                  : <EyeOff className="h-3.5 w-3.5 opacity-40" />
+                  ? <Eye className="h-3 w-3" style={{ color }} />
+                  : <EyeOff className="h-3 w-3" />
                 }
                 {label}
               </button>
             ))}
           </div>
 
-          <div className="absolute top-4 right-16 glass-smoke rounded-xl px-3 py-2 border border-[rgba(255,69,0,0.15)] flex items-center gap-2">
-            <Satellite className="h-3.5 w-3.5 text-[rgba(245,240,234,0.5)]" />
-            <span className="text-xs text-[rgba(245,240,234,0.5)]">Satellite</span>
+          <div className="absolute top-3 right-12 bg-[rgba(20,20,20,0.9)] border border-[#2e2e2e] rounded px-2.5 py-1.5 flex items-center gap-1.5">
+            <Satellite className="h-3 w-3 text-[#666]" />
+            <span className="text-xs text-[#666]">Satellite</span>
           </div>
 
-          <div className="absolute bottom-12 left-4 glass-smoke rounded-xl p-3 border border-[rgba(255,69,0,0.15)]">
-            <div className="flex items-center gap-2 mb-2">
-              <Flame className="h-3.5 w-3.5 text-[#ff4500]" />
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-[rgba(245,240,234,0.4)]">Intensity Scale</span>
-            </div>
+          <div className="absolute bottom-10 left-3 bg-[rgba(20,20,20,0.9)] border border-[#2e2e2e] rounded p-2.5">
+            <p className="text-[10px] text-[#555] uppercase tracking-widest mb-1.5">Intensity</p>
             <div className="flex items-center gap-2">
-              <div className="h-2 w-24 rounded-full" style={{ background: "linear-gradient(90deg, #ffff00, #ff6600, #cc0000)" }} />
-              <div className="flex justify-between w-24 text-[9px] text-[rgba(245,240,234,0.4)]">
+              <div className="h-1.5 w-20 rounded-full" style={{ background: "linear-gradient(90deg, #ffff00, #ff6600, #cc0000)" }} />
+              <div className="flex justify-between w-20 text-[9px] text-[#555]">
                 <span>Low</span><span>High</span>
               </div>
             </div>
           </div>
 
           {fireCount > 0 && (
-            <Badge
-              variant="fire"
-              pulse
-              className="absolute bottom-12 right-16 cursor-pointer"
-            >
-              {fireCount.toLocaleString()} NASA hotspots
+            <Badge variant="fire" pulse className="absolute bottom-10 right-12">
+              {fireCount.toLocaleString()} hotspots
             </Badge>
           )}
 
           <button
             onClick={loadNASAFires}
             disabled={loadingFires}
-            className="absolute bottom-4 right-16 glass-smoke rounded-lg p-2 border border-[rgba(255,69,0,0.15)] hover:border-[rgba(255,69,0,0.4)] transition-colors disabled:opacity-50"
+            className="absolute bottom-3 right-12 bg-[rgba(20,20,20,0.9)] border border-[#2e2e2e] rounded p-1.5 hover:border-[#444] transition-colors disabled:opacity-40"
             title="Refresh fire data"
           >
-            <RefreshCw className={cn("h-4 w-4 text-[rgba(245,240,234,0.6)]", loadingFires && "animate-spin")} />
+            <RefreshCw className={cn("h-3.5 w-3.5 text-[#888]", loadingFires && "animate-spin")} />
           </button>
         </>
       )}

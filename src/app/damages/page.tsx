@@ -5,23 +5,16 @@ import { Calculator } from "lucide-react";
 
 export default function DamagesPage() {
   return (
-    <div className="min-h-screen bg-fire-gradient">
+    <div className="min-h-screen bg-[#111]">
       <Navbar />
-      <main className="pt-20 md:pt-16 pb-16">
+      <main className="pt-14 pb-16">
         <div className="max-w-screen-2xl mx-auto px-4 py-8">
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-lg bg-[rgba(255,69,0,0.15)]">
-                <Calculator className="h-5 w-5 text-[#ff4500]" />
-              </div>
-              <h1
-                className="text-3xl font-bold text-[#f5f0ea]"
-                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-              >
-                Damage Assessment
-              </h1>
+            <div className="flex items-center gap-2 mb-1">
+              <Calculator className="h-4 w-4 text-[#e84c1a]" />
+              <h1 className="text-xl font-semibold text-[#e0e0e0]">Damage Assessment</h1>
             </div>
-            <p className="text-[rgba(245,240,234,0.5)] ml-[52px]">
+            <p className="text-sm text-[#666] ml-6">
               Estimate economic impact using FEMA methodology and state-level property valuation data.
             </p>
           </div>
