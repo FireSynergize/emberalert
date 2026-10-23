@@ -31,8 +31,8 @@ const EMERGENCY_CONTACTS = [
   { name: "Emergency Services", number: "911", icon: Phone, always: true },
   { name: "FEMA Helpline", number: "1-800-621-3362", icon: ShieldCheck, always: false },
   { name: "Red Cross", number: "1-800-733-2767", icon: Hospital, always: false },
-  { name: "CAL FIRE", number: "1-800-468-4408", icon: AlertTriangle, always: false },
   { name: "USFS Fire Info", number: "1-877-864-6985", icon: Navigation, always: false },
+  { name: "United Way 211", number: "211", icon: Phone, always: false },
 ];
 
 const ROUTE_TIPS = [
