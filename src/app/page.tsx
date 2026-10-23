@@ -283,17 +283,11 @@ export default function HomePage() {
         <section className="max-w-screen-2xl mx-auto px-4 pb-8">
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
             <div className="xl:col-span-2 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
                 {location.status === "granted" ? (
-                  <>
-                    <AQIWidget key={`${location.lat},${location.lng}`} lat={location.lat} lon={location.lng} city="Your Location" />
-                    <AQIWidget lat={34.0522} lon={-118.2437} city="Los Angeles, CA" />
-                  </>
+                  <AQIWidget key={`${location.lat},${location.lng}`} lat={location.lat} lon={location.lng} city="Your Location" />
                 ) : (
-                  <>
-                    <AQIWidget lat={37.7749} lon={-122.4194} city={location.status === "denied" ? "San Francisco, CA (example)" : "San Francisco, CA"} />
-                    <AQIWidget lat={34.0522} lon={-118.2437} city="Los Angeles, CA" />
-                  </>
+                  <AQIWidget lat={37.7749} lon={-122.4194} city={location.status === "denied" ? "San Francisco, CA (example)" : "San Francisco, CA"} />
                 )}
               </div>
 
