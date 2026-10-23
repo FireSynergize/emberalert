@@ -74,14 +74,14 @@ export function calculateDamages(inputs: DamageInputs): DamageEstimate {
 }
 
 export const HISTORICAL_FIRES = [
-  { year: 2018, name: "Camp Fire", state: "CA", acresBurned: 153336, structuresDestroyed: 18804, fatalities: 85, estimatedDamage: 16500000000, cause: "Utility equipment", startDate: "2018-11-08", endDate: "2018-11-25", containment: 100 },
-  { year: 2020, name: "August Complex", state: "CA", acresBurned: 1032648, structuresDestroyed: 935, fatalities: 1, estimatedDamage: 2800000000, cause: "Lightning", startDate: "2020-08-16", endDate: "2020-11-12", containment: 100 },
-  { year: 2021, name: "Dixie Fire", state: "CA", acresBurned: 963309, structuresDestroyed: 1329, fatalities: 1, estimatedDamage: 675000000, cause: "Utility equipment", startDate: "2021-07-13", endDate: "2021-10-25", containment: 100 },
-  { year: 2022, name: "Hermits Peak/Calf Canyon", state: "NM", acresBurned: 341735, structuresDestroyed: 900, fatalities: 2, estimatedDamage: 3900000000, cause: "Prescribed burn escape", startDate: "2022-04-06", endDate: "2022-08-21", containment: 100 },
-  { year: 2023, name: "Lahaina Fire", state: "HI", acresBurned: 2170, structuresDestroyed: 2207, fatalities: 101, estimatedDamage: 5600000000, cause: "Downed power lines", startDate: "2023-08-08", endDate: "2023-08-11", containment: 100 },
-  { year: 2017, name: "Thomas Fire", state: "CA", acresBurned: 281893, structuresDestroyed: 1063, fatalities: 2, estimatedDamage: 2200000000, cause: "Utility equipment", startDate: "2017-12-04", endDate: "2018-01-12", containment: 100 },
-  { year: 2020, name: "North Complex", state: "CA", acresBurned: 318935, structuresDestroyed: 2352, fatalities: 15, estimatedDamage: 1400000000, cause: "Lightning", startDate: "2020-08-17", endDate: "2020-11-06", containment: 100 },
-  { year: 2021, name: "Caldor Fire", state: "CA", acresBurned: 221835, structuresDestroyed: 1003, fatalities: 1, estimatedDamage: 1500000000, cause: "Unknown", startDate: "2021-08-14", endDate: "2021-10-21", containment: 100 },
-  { year: 2022, name: "Oak Fire", state: "CA", acresBurned: 19244, structuresDestroyed: 127, fatalities: 0, estimatedDamage: 130000000, cause: "Unknown", startDate: "2022-07-22", endDate: "2022-08-05", containment: 100 },
   { year: 2024, name: "Park Fire", state: "CA", acresBurned: 429603, structuresDestroyed: 168, fatalities: 1, estimatedDamage: 220000000, cause: "Arson", startDate: "2024-07-24", endDate: "2024-09-27", containment: 100 },
+  { year: 2023, name: "Lahaina Fire", state: "HI", acresBurned: 2170, structuresDestroyed: 2207, fatalities: 101, estimatedDamage: 5600000000, cause: "Downed power lines", startDate: "2023-08-08", endDate: "2023-08-11", containment: 100 },
+  { year: 2022, name: "Hermits Peak/Calf Canyon", state: "NM", acresBurned: 341735, structuresDestroyed: 900, fatalities: 2, estimatedDamage: 3900000000, cause: "Prescribed burn escape", startDate: "2022-04-06", endDate: "2022-08-21", containment: 100 },
+  { year: 2022, name: "Oak Fire", state: "CA", acresBurned: 19244, structuresDestroyed: 127, fatalities: 0, estimatedDamage: 130000000, cause: "Unknown", startDate: "2022-07-22", endDate: "2022-08-05", containment: 100 },
+  { year: 2021, name: "Dixie Fire", state: "CA", acresBurned: 963309, structuresDestroyed: 1329, fatalities: 1, estimatedDamage: 675000000, cause: "Utility equipment", startDate: "2021-07-13", endDate: "2021-10-25", containment: 100 },
+  { year: 2021, name: "Caldor Fire", state: "CA", acresBurned: 221835, structuresDestroyed: 1003, fatalities: 1, estimatedDamage: 1500000000, cause: "Unknown", startDate: "2021-08-14", endDate: "2021-10-21", containment: 100 },
+  { year: 2020, name: "August Complex", state: "CA", acresBurned: 1032648, structuresDestroyed: 935, fatalities: 1, estimatedDamage: 2800000000, cause: "Lightning", startDate: "2020-08-16", endDate: "2020-11-12", containment: 100 },
+  { year: 2020, name: "North Complex", state: "CA", acresBurned: 318935, structuresDestroyed: 2352, fatalities: 15, estimatedDamage: 1400000000, cause: "Lightning", startDate: "2020-08-17", endDate: "2020-11-06", containment: 100 },
+  { year: 2018, name: "Camp Fire", state: "CA", acresBurned: 153336, structuresDestroyed: 18804, fatalities: 85, estimatedDamage: 16500000000, cause: "Utility equipment", startDate: "2018-11-08", endDate: "2018-11-25", containment: 100 },
+  { year: 2017, name: "Thomas Fire", state: "CA", acresBurned: 281893, structuresDestroyed: 1063, fatalities: 2, estimatedDamage: 2200000000, cause: "Utility equipment", startDate: "2017-12-04", endDate: "2018-01-12", containment: 100 },
 ];
