@@ -34,13 +34,14 @@ export interface FireZone {
 
 export interface FireStats {
   hotspotCount: number | null;
+  peakFrp: number | null;
   topZones: FireZone[];
 }
 
 export async function GET() {
   const mapKey = process.env.FIRMS_MAP_KEY;
   if (!mapKey) {
-    return NextResponse.json<FireStats>({ hotspotCount: null, topZones: [] });
+    return NextResponse.json<FireStats>({ hotspotCount: null, peakFrp: null, topZones: [] });
   }
 
   try {
@@ -65,16 +66,17 @@ export async function GET() {
       }
     }
 
-    const topZones: FireZone[] = [...cells.values()]
-      .sort((a, b) => b.frp - a.frp)
+    const sorted = [...cells.values()].sort((a, b) => b.frp - a.frp);
+    const topZones: FireZone[] = sorted
       .slice(0, 5)
       .map((z) => ({ lat: z.lat, lng: z.lng, frp: Math.round(z.frp), hotspots: z.count, label: z.label }));
+    const peakFrp = sorted.length > 0 ? Math.round(sorted[0].frp) : null;
 
-    return NextResponse.json<FireStats>({ hotspotCount: hotspots.length, topZones }, {
+    return NextResponse.json<FireStats>({ hotspotCount: hotspots.length, peakFrp, topZones }, {
       headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=7200" },
     });
   } catch (err) {
     console.error("fire-stats error:", err);
-    return NextResponse.json<FireStats>({ hotspotCount: null, topZones: [] });
+    return NextResponse.json<FireStats>({ hotspotCount: null, peakFrp: null, topZones: [] });
   }
 }

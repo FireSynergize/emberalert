@@ -6,7 +6,7 @@ import { AQIWidget } from "@/components/dashboard/AQIWidget";
 import { ChatBot } from "@/components/chat/ChatBot";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { Flame, Home, Users, Wind, MapPin, AlertTriangle, TrendingUp, Shield, LocateFixed, X } from "lucide-react";
+import { Flame, Wind, MapPin, AlertTriangle, TrendingUp, Shield, LocateFixed, X, Zap } from "lucide-react";
 import Link from "next/link";
 import { HISTORICAL_FIRES } from "@/lib/utils/damage-calculator";
 import type { FireStats } from "@/app/api/fire-stats/route";
@@ -38,12 +38,21 @@ export default function HomePage() {
   const [location, setLocation] = useState<LocationState>({ status: "checking" });
   const [stats, setStats] = useState<FireStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(true);
+  const [elevatedAQI, setElevatedAQI] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/fire-stats")
       .then((r) => r.json())
       .then((d: FireStats) => { setStats(d); setStatsLoading(false); })
       .catch(() => setStatsLoading(false));
+
+    fetch("/api/aqi-grid")
+      .then((r) => r.json())
+      .then((d: { points: { aqi: number | null }[] }) => {
+        const count = d.points.filter((p) => p.aqi != null && p.aqi > 50).length;
+        setElevatedAQI(count);
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -236,7 +245,7 @@ export default function HomePage() {
 
         {/* Stats */}
         <section className="max-w-screen-2xl mx-auto px-4 pb-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <StatCard
               title="Active Hotspots"
               value={statsLoading ? "…" : hotspotCount != null ? hotspotCount.toLocaleString() : "—"}
@@ -250,10 +259,18 @@ export default function HomePage() {
               icon={MapPin}
               color="red"
             />
-            <StatCard title="Structures at Risk" value="—" icon={Home} color="amber" />
-            <StatCard title="Evacuation Orders" value="—" icon={Users} color="red" />
-            <StatCard title="Avg Containment" value="—" icon={TrendingUp} color="amber" />
-            <StatCard title="Smoke Counties" value="—" icon={Wind} color="purple" />
+            <StatCard
+              title="Peak Zone FRP"
+              value={statsLoading ? "…" : stats?.peakFrp != null ? `${stats.peakFrp.toLocaleString()} MW` : "—"}
+              icon={Zap}
+              color="amber"
+            />
+            <StatCard
+              title="Elevated AQI Areas"
+              value={elevatedAQI != null ? elevatedAQI.toString() : "…"}
+              icon={Wind}
+              color="purple"
+            />
           </div>
           {!hasLiveFireData && !statsLoading && (
             <p className="text-[10px] text-[#444] mt-2">
