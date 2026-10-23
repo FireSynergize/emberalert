@@ -8,6 +8,8 @@ export function AQIWidget({ lat, lon, city }: { lat: number; lon: number; city?:
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+    setData(null);
     fetch(`/api/air-quality?lat=${lat}&lon=${lon}`)
       .then((r) => r.json())
       .then((d) => { setData(d); setLoading(false); })

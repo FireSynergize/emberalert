@@ -249,7 +249,7 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {location.status === "granted" ? (
                   <>
-                    <AQIWidget lat={location.lat} lon={location.lng} city="Your Location" />
+                    <AQIWidget key={`${location.lat},${location.lng}`} lat={location.lat} lon={location.lng} city="Your Location" />
                     <AQIWidget lat={34.0522} lon={-118.2437} city="Los Angeles, CA" />
                   </>
                 ) : (
