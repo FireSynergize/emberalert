@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "EmberAlert — Wildfire Intelligence Platform",
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className="bg-fire-gradient min-h-screen">
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
