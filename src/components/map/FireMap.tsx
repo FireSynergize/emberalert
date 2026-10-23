@@ -291,14 +291,31 @@ export function FireMap({
         nasaLayerRef.current.clearLayers();
         L.geoJSON(data.geojson as GeoJSON.FeatureCollection, {
           pointToLayer: (feature, latlng) => {
-            const frp: number = feature.properties?.frp ?? 0;
+            const p = feature.properties ?? {};
+            const frp: number = p.frp ?? 0;
+            const intensity = frp > 1000 ? "Extreme" : frp > 300 ? "High" : frp > 50 ? "Moderate" : "Low";
+            const intensityColor = frp > 1000 ? "#ef4444" : frp > 300 ? "#f97316" : frp > 50 ? "#eab308" : "#22c55e";
+            const acqTime = p.acq_time ? `${String(p.acq_time).padStart(4,"0").slice(0,2)}:${String(p.acq_time).padStart(4,"0").slice(2)} UTC` : "—";
             return L.circleMarker(latlng, {
               radius: Math.max(4, Math.min(14, frp / 25)),
               color: "rgba(255,255,255,0.25)",
               weight: 1,
               fillColor: frpColor(frp),
               fillOpacity: 0.85,
-            }).bindTooltip(`FRP: ${frp.toFixed(0)} MW`, { sticky: true });
+            }).bindPopup(
+              `<div style="font-family:system-ui,sans-serif;padding:4px;min-width:200px">
+                <div style="font-size:13px;font-weight:700;color:#ff7b35;margin-bottom:8px">🛰 NASA FIRMS Hotspot</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px">
+                  <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">FRP</span><b style="color:#e0e0e0">${frp.toFixed(0)} MW</b></div>
+                  <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">Intensity</span><b style="color:${intensityColor}">${intensity}</b></div>
+                  <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">Confidence</span><b style="color:#e0e0e0">${p.confidence ?? "—"}</b></div>
+                  <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">Satellite</span><b style="color:#e0e0e0">${p.satellite ?? "—"}</b></div>
+                  <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">Date</span><b style="color:#e0e0e0">${p.acq_date ?? "—"}</b></div>
+                  <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">Time</span><b style="color:#e0e0e0">${acqTime}</b></div>
+                </div>
+              </div>`,
+              { maxWidth: 260 }
+            );
           },
         }).addTo(nasaLayerRef.current);
         setFireCount(data.count ?? 0);
@@ -365,11 +382,11 @@ export function FireMap({
           .bindPopup(
             `<div style="font-family:system-ui,sans-serif;padding:4px;min-width:190px">
               <div style="font-size:13px;font-weight:700;color:#ff7b35;margin-bottom:8px">🔥 ${fire.name}</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;color:#222">
-                <div><span style="color:#888;display:block">State</span><b>${fire.state}</b></div>
-                <div><span style="color:#888;display:block">Acres</span><b>${fire.acres.toLocaleString()}</b></div>
-                <div><span style="color:#888;display:block">Containment</span><b style="color:${color}">${fire.containment}%</b></div>
-                <div><span style="color:#888;display:block">Cause</span><b>${fire.cause}</b></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px">
+                <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">State</span><b style="color:#e0e0e0">${fire.state}</b></div>
+                <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">Acres</span><b style="color:#e0e0e0">${fire.acres.toLocaleString()}</b></div>
+                <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">Containment</span><b style="color:${color}">${fire.containment}%</b></div>
+                <div><span style="color:#888;display:block;font-size:10px;margin-bottom:2px">Cause</span><b style="color:#e0e0e0">${fire.cause}</b></div>
               </div>
             </div>`,
             { maxWidth: 260 }

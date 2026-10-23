@@ -64,28 +64,44 @@ export default function HomePage() {
       <Navbar />
 
       <main className="pt-14 pb-16">
-        {/* Location prompt banner */}
+        {/* Location prompt — top strip on desktop, fixed bottom sheet on mobile */}
         {location.status === "prompt" && (
-          <div className="bg-[#1a1a1a] border-b border-[#2e2e2e]">
-            <div className="max-w-screen-2xl mx-auto px-4 py-2.5 flex items-center gap-3">
-              <LocateFixed className="h-4 w-4 text-[#e84c1a] flex-shrink-0" />
-              <p className="text-xs text-[#888] flex-1">
-                Allow location access for real-time local air quality and nearby fire alerts.
-              </p>
-              <button
-                onClick={requestLocation}
-                className="text-xs font-medium text-[#e84c1a] hover:text-[#ff6b3d] transition-colors flex-shrink-0"
-              >
-                Allow
-              </button>
-              <button
-                onClick={() => setLocation({ status: "skipped" })}
-                className="text-[#444] hover:text-[#666] transition-colors flex-shrink-0"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
+          <>
+            <div className="hidden md:block bg-[#1a1a1a] border-b border-[#2e2e2e]">
+              <div className="max-w-screen-2xl mx-auto px-4 py-2.5 flex items-center gap-3">
+                <LocateFixed className="h-4 w-4 text-[#e84c1a] flex-shrink-0" />
+                <p className="text-xs text-[#888] flex-1">
+                  Allow location access for real-time local air quality and nearby fire alerts.
+                </p>
+                <button onClick={requestLocation} className="text-xs font-medium text-[#e84c1a] hover:text-[#ff6b3d] transition-colors flex-shrink-0">
+                  Allow
+                </button>
+                <button onClick={() => setLocation({ status: "skipped" })} className="text-[#444] hover:text-[#666] transition-colors flex-shrink-0">
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
             </div>
-          </div>
+            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#1c1c1c] border-t border-[#2e2e2e] p-4 shadow-2xl">
+              <div className="flex items-start gap-3 mb-3">
+                <LocateFixed className="h-5 w-5 text-[#e84c1a] flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-[#e0e0e0] mb-0.5">Allow location access</p>
+                  <p className="text-xs text-[#888]">Get real-time local air quality and nearby fire alerts.</p>
+                </div>
+                <button onClick={() => setLocation({ status: "skipped" })} className="text-[#555] p-1 -mr-1 -mt-1">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={requestLocation} className="flex-1 py-2.5 rounded bg-[#e84c1a] text-white text-sm font-semibold">
+                  Allow
+                </button>
+                <button onClick={() => setLocation({ status: "skipped" })} className="flex-1 py-2.5 rounded border border-[#2e2e2e] text-[#888] text-sm">
+                  Skip
+                </button>
+              </div>
+            </div>
+          </>
         )}
         {location.status === "loading" && (
           <div className="bg-[#1a1a1a] border-b border-[#2e2e2e]">
