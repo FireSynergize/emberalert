@@ -45,6 +45,20 @@ export default function HomePage() {
       .catch(() => setStatsLoading(false));
   }, []);
 
+  useEffect(() => {
+    if (!navigator.permissions) return;
+    navigator.permissions.query({ name: "geolocation" }).then((result) => {
+      if (result.state === "granted") {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => setLocation({ status: "granted", lat: pos.coords.latitude, lng: pos.coords.longitude }),
+          () => setLocation({ status: "denied" })
+        );
+      } else if (result.state === "denied") {
+        setLocation({ status: "denied" });
+      }
+    });
+  }, []);
+
   function requestLocation() {
     setLocation({ status: "loading" });
     navigator.geolocation.getCurrentPosition(
