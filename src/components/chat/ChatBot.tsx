@@ -1,6 +1,8 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Flame, Bot, User, Loader2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
 
@@ -25,9 +27,13 @@ export function ChatBot() {
   const [showSuggestions, setShowSuggestions] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const msgCountRef = useRef(0);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length > msgCountRef.current) {
+      msgCountRef.current = messages.length;
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   const sendMessage = useCallback(async (text: string) => {
@@ -145,7 +151,28 @@ export function ChatBot() {
                   <span className="h-1.5 w-1.5 bg-[#e84c1a] rounded-full animate-bounce [animation-delay:300ms]" />
                 </div>
               ) : (
-                <div dangerouslySetInnerHTML={{ __html: formatMessage(m.content) }} />
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    table: ({ children }) => <div className="overflow-x-auto my-2"><table className="text-xs border-collapse w-full">{children}</table></div>,
+                    thead: ({ children }) => <thead className="border-b border-white/10">{children}</thead>,
+                    th: ({ children }) => <th className="px-2 py-1 text-left font-semibold text-[#e0e0e0]">{children}</th>,
+                    td: ({ children }) => <td className="px-2 py-1 border-t border-white/5 text-[#b0b0b0]">{children}</td>,
+                    h1: ({ children }) => <h1 className="text-[0.95rem] font-bold text-[#e84c1a] mt-3 mb-1">{children}</h1>,
+                    h2: ({ children }) => <h2 className="text-[0.85rem] font-semibold text-[#e84c1a] mt-2.5 mb-1">{children}</h2>,
+                    h3: ({ children }) => <h3 className="text-[0.8rem] font-semibold text-[#e84c1a] mt-2 mb-0.5">{children}</h3>,
+                    p: ({ children }) => <p className="mb-1.5 last:mb-0">{children}</p>,
+                    ul: ({ children }) => <ul className="list-disc list-inside space-y-0.5 my-1">{children}</ul>,
+                    ol: ({ children }) => <ol className="list-decimal list-inside space-y-0.5 my-1">{children}</ol>,
+                    li: ({ children }) => <li className="text-[#d0d0d0]">{children}</li>,
+                    hr: () => <hr className="border-none border-t border-white/10 my-2" />,
+                    strong: ({ children }) => <strong className="font-semibold text-[#e0e0e0]">{children}</strong>,
+                    em: ({ children }) => <em className="italic text-[#b0b0b0]">{children}</em>,
+                    code: ({ children }) => <code className="bg-[#1a1a1a] rounded px-1 py-0.5 text-[0.8rem] text-[#e84c1a] font-mono">{children}</code>,
+                  }}
+                >
+                  {m.content}
+                </ReactMarkdown>
               )}
             </div>
             {m.role === "user" && (
@@ -177,13 +204,3 @@ export function ChatBot() {
   );
 }
 
-function formatMessage(content: string): string {
-  return content
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.+?)\*/g, "<em>$1</em>")
-    .replace(/^### (.+)$/gm, '<h3 style="font-size:0.8rem;font-weight:600;color:#e84c1a;margin:0.6rem 0 0.2rem">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 style="font-size:0.85rem;font-weight:600;color:#e84c1a;margin:0.6rem 0 0.2rem">$2</h2>')
-    .replace(/^- (.+)$/gm, '<li style="margin:0.15rem 0;padding-left:0.5rem">• $1</li>')
-    .replace(/\n\n/g, "<br/><br/>")
-    .replace(/\n/g, "<br/>");
-}

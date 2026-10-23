@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Wind } from "lucide-react";
 import { getAQICategory } from "@/lib/utils/cn";
 
-export function AQIWidget({ lat, lon }: { lat: number; lon: number }) {
+export function AQIWidget({ lat, lon, city }: { lat: number; lon: number; city?: string }) {
   const [data, setData] = useState<{ aqi: number | null; pm25: number | null; category: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -30,11 +30,14 @@ export function AQIWidget({ lat, lon }: { lat: number; lon: number }) {
     <div className="bg-[#1c1c1c] border border-[#2e2e2e] rounded-lg p-4">
       <div className="flex items-center gap-2 mb-2">
         <Wind className="h-3.5 w-3.5" style={{ color: cat.color }} />
-        <p className="text-xs text-[#666] uppercase tracking-wider">Air Quality Index</p>
+        <div className="flex-1 min-w-0">
+          <p className="text-xs text-[#666] uppercase tracking-wider">Air Quality Index</p>
+          {city && <p className="text-[10px] text-[#444] truncate">{city}</p>}
+        </div>
       </div>
       <div className="flex items-end gap-2">
         <span className="text-2xl font-bold" style={{ color: cat.color }}>
-          {aqi || "—"}
+          {data?.aqi != null ? aqi : "—"}
         </span>
         <span className="text-xs font-medium mb-0.5 text-[#888]">{cat.label}</span>
       </div>

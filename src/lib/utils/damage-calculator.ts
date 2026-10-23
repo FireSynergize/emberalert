@@ -43,9 +43,9 @@ export function calculateDamages(inputs: DamageInputs): DamageEstimate {
 
   const infrastructureDamage =
     inputs.acresBurned * 12 * intensityMult +
-    inputs.urbanProximity > 5
+    (inputs.urbanProximity > 5
       ? inputs.structuresDestroyed * 8500
-      : inputs.structuresDestroyed * 15000;
+      : inputs.structuresDestroyed * 15000);
 
   const environmentalDamage = inputs.acresBurned * 2200 * intensityMult;
 
@@ -83,5 +83,5 @@ export const HISTORICAL_FIRES = [
   { year: 2020, name: "North Complex", state: "CA", acresBurned: 318935, structuresDestroyed: 2352, fatalities: 15, estimatedDamage: 1400000000, cause: "Lightning", startDate: "2020-08-17", endDate: "2020-11-06", containment: 100 },
   { year: 2021, name: "Caldor Fire", state: "CA", acresBurned: 221835, structuresDestroyed: 1003, fatalities: 1, estimatedDamage: 1500000000, cause: "Unknown", startDate: "2021-08-14", endDate: "2021-10-21", containment: 100 },
   { year: 2022, name: "Oak Fire", state: "CA", acresBurned: 19244, structuresDestroyed: 127, fatalities: 0, estimatedDamage: 130000000, cause: "Unknown", startDate: "2022-07-22", endDate: "2022-08-05", containment: 100 },
-  { year: 2023, name: "Park Fire", state: "CA", acresBurned: 429603, structuresDestroyed: 168, fatalities: 1, estimatedDamage: 220000000, cause: "Arson", startDate: "2024-07-24", endDate: "2024-09-27", containment: 100 },
+  { year: 2024, name: "Park Fire", state: "CA", acresBurned: 429603, structuresDestroyed: 168, fatalities: 1, estimatedDamage: 220000000, cause: "Arson", startDate: "2024-07-24", endDate: "2024-09-27", containment: 100 },
 ];
