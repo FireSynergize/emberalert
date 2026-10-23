@@ -12,6 +12,7 @@ import { HISTORICAL_FIRES } from "@/lib/utils/damage-calculator";
 import type { FireStats } from "@/app/api/fire-stats/route";
 
 type LocationState =
+  | { status: "checking" }
   | { status: "prompt" }
   | { status: "loading" }
   | { status: "granted"; lat: number; lng: number }
@@ -34,7 +35,7 @@ function frpColor(frp: number) {
 export default function HomePage() {
   const topFires = HISTORICAL_FIRES.slice(0, 5);
 
-  const [location, setLocation] = useState<LocationState>({ status: "prompt" });
+  const [location, setLocation] = useState<LocationState>({ status: "checking" });
   const [stats, setStats] = useState<FireStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(true);
 
@@ -46,7 +47,10 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (!navigator.permissions) return;
+    if (!navigator.permissions) {
+      setLocation({ status: "prompt" });
+      return;
+    }
     navigator.permissions.query({ name: "geolocation" }).then((result) => {
       if (result.state === "granted") {
         navigator.geolocation.getCurrentPosition(
@@ -55,6 +59,8 @@ export default function HomePage() {
         );
       } else if (result.state === "denied") {
         setLocation({ status: "denied" });
+      } else {
+        setLocation({ status: "prompt" });
       }
     });
   }, []);
