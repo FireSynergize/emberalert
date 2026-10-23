@@ -8,6 +8,22 @@ interface DamageChartProps {
   result: DamageEstimate;
 }
 
+function formatDamage(val: number) {
+  if (val >= 1e9) return `$${(val / 1e9).toFixed(2)}B`;
+  if (val >= 1e6) return `$${(val / 1e6).toFixed(1)}M`;
+  return `$${(val / 1e3).toFixed(0)}K`;
+}
+
+function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<{ value: number; name: string }> }) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="glass-smoke rounded-lg px-3 py-2 border border-[rgba(255,69,0,0.2)]">
+      <p className="text-xs text-[rgba(245,240,234,0.5)]">{payload[0].name}</p>
+      <p className="text-sm font-bold text-[#ff7b35]">{formatDamage(payload[0].value)}</p>
+    </div>
+  );
+}
+
 export function DamageChart({ result }: DamageChartProps) {
   const data = [
     { name: "Property", value: result.propertyDamage },
@@ -15,24 +31,6 @@ export function DamageChart({ result }: DamageChartProps) {
     { name: "Infrastructure", value: result.infrastructureDamage },
     { name: "Environmental", value: result.environmentalDamage },
   ];
-
-  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ value: number; name: string }> }) => {
-    if (active && payload?.length) {
-      const val = payload[0].value;
-      const formatted = val >= 1e9
-        ? `$${(val / 1e9).toFixed(2)}B`
-        : val >= 1e6
-        ? `$${(val / 1e6).toFixed(1)}M`
-        : `$${(val / 1e3).toFixed(0)}K`;
-      return (
-        <div className="glass-smoke rounded-lg px-3 py-2 border border-[rgba(255,69,0,0.2)]">
-          <p className="text-xs text-[rgba(245,240,234,0.5)]">{payload[0].name}</p>
-          <p className="text-sm font-bold text-[#ff7b35]">{formatted}</p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="glass-fire rounded-xl p-5 border border-[rgba(255,69,0,0.15)]">

@@ -32,9 +32,11 @@ export default function MapPage() {
           </div>
 
           <div className="flex-1 min-h-[600px] relative">
-            <Suspense>
-              <FireMap height="100%" showControls initialCenter={[-98.5795, 39.8283]} initialZoom={4} />
-            </Suspense>
+            <div className="absolute inset-0">
+              <Suspense>
+                <FireMap height="100%" showControls initialCenter={[-98.5795, 39.8283]} initialZoom={4} />
+              </Suspense>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

@@ -24,7 +24,7 @@ export async function fetchAirQuality(
     longitude: lon.toString(),
     hourly: "pm2_5,pm10,us_aqi,us_aqi_pm2_5,carbon_monoxide,nitrogen_dioxide,ozone,dust",
     forecast_days: days.toString(),
-    timezone: "America/New_York",
+    timezone: "UTC",
   });
 
   const res = await fetch(
@@ -44,12 +44,14 @@ export async function fetchCurrentAQI(lat: number, lon: number): Promise<{
   const data = await fetchAirQuality(lat, lon, 1);
   const now = new Date();
   const hourIndex = data.hourly.time.findIndex((t) => {
-    const d = new Date(t);
+    // Open-Meteo returns UTC times as "YYYY-MM-DDTHH:00" (no Z suffix).
+    // Appending Z forces UTC parsing, then compare against UTC components.
+    const d = new Date(t + "Z");
     return (
-      d.getFullYear() === now.getFullYear() &&
-      d.getMonth() === now.getMonth() &&
-      d.getDate() === now.getDate() &&
-      d.getHours() === now.getHours()
+      d.getUTCFullYear() === now.getUTCFullYear() &&
+      d.getUTCMonth() === now.getUTCMonth() &&
+      d.getUTCDate() === now.getUTCDate() &&
+      d.getUTCHours() === now.getUTCHours()
     );
   });
 
