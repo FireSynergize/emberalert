@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "EmberAlert — Wildfire Intelligence Platform",
@@ -21,7 +22,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-fire-gradient min-h-screen">{children}</body>
+      <body className="bg-fire-gradient min-h-screen">
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
