@@ -149,7 +149,7 @@ export default function HomePage() {
                 <span className="text-xs text-[#666]">Updated hourly from NASA FIRMS</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-[#e0e0e0] leading-tight mb-3">
-                Wildfire Intelligence Platform
+                EmberAlert
               </h1>
               <p className="text-[#888] text-base max-w-xl leading-relaxed">
                 Real-time satellite fire detection, damage assessment, escape route planning, and AI-powered safety guidance for the United States.

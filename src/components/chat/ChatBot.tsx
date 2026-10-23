@@ -99,7 +99,7 @@ export function ChatBot() {
       <div className="flex items-center gap-2.5 p-3 border-b border-[#2e2e2e]">
         <Flame className="h-4 w-4 text-[#e84c1a]" />
         <div>
-          <p className="text-sm font-medium text-[#e0e0e0]">Wildfire AI Assistant</p>
+          <p className="text-sm font-medium text-[#e0e0e0]">EmberAlert AI</p>
           <p className="text-[10px] text-[#555]">Claude · Anthropic</p>
         </div>
       </div>

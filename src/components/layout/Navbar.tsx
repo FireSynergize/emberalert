@@ -20,7 +20,7 @@ export function Navbar() {
       <div className="max-w-screen-2xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Flame className="h-5 w-5 text-[#e84c1a]" />
-          <span className="text-sm font-semibold text-[#e0e0e0]">FireSynergize</span>
+          <span className="text-sm font-semibold text-[#e0e0e0]">EmberAlert</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1">

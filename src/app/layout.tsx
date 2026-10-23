@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FireSynergize — Wildfire Intelligence Platform",
+  title: "EmberAlert — Wildfire Intelligence Platform",
   description:
     "Real-time wildfire damage assessment, escape route planning, and AI-powered safety guidance for the United States.",
   keywords: ["wildfire", "fire safety", "damage assessment", "evacuation routes", "air quality"],
