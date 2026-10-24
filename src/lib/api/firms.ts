@@ -8,7 +8,10 @@ export async function fetchFIRMSHotspots(
   days: number = 1,
   region: string = "-165,18,-66,50"
 ): Promise<FireHotspot[]> {
-  const url = `${FIRMS_BASE}/area/csv/${mapKey}/${source}/${region}/${days}`;
+  // FIRMS "days" counts UTC calendar days ending today, so days=1 is empty just
+  // after UTC midnight. Fetch one extra day and trim to a rolling window.
+  const url = `${FIRMS_BASE}/area/csv/${mapKey}/${source}/${region}/${Math.min(days + 1, 5)}`;
+  const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
   const res = await fetch(url, { next: { revalidate: 3600 } });
   if (!res.ok) throw new Error(`FIRMS API error: ${res.status}`);
 
@@ -17,7 +20,7 @@ export async function fetchFIRMSHotspots(
   if (lines.length < 2) return [];
 
   const headers = lines[0].split(",");
-  return lines.slice(1).map((line) => {
+  const all = lines.slice(1).map((line) => {
     const values = line.split(",");
     const obj: Record<string, string> = {};
     headers.forEach((h, i) => { obj[h.trim()] = values[i]?.trim() ?? ""; });
@@ -36,6 +39,12 @@ export async function fetchFIRMSHotspots(
       frp: parseFloat(obj.frp ?? "0"),
       daynight: (obj.daynight ?? "D") as "D" | "N",
     };
+  });
+
+  return all.filter((h) => {
+    const t = (h.acq_time ?? "").padStart(4, "0");
+    const ts = Date.parse(`${h.acq_date}T${t.slice(0, 2)}:${t.slice(2)}:00Z`);
+    return Number.isNaN(ts) || ts >= cutoff;
   });
 }
 
